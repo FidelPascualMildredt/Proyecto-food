@@ -15,7 +15,8 @@ class DetallePedidoController extends Controller
     public function index()
     {
         //Definimos nuestra vista
-        return Pedido::all();
+         return Pedido::all();
+
     }
 
     /**

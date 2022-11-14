@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Horario extends Model
 {
     use HasFactory,SoftDeletes;
+    protected $fillable = ['dia','hora_inicio','hora_final'];
 
     public function negocios()
     {

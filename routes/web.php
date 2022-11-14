@@ -31,12 +31,13 @@ Route::put('mirutaapip',[PedidoController::class,'index'])->name('pedido.update'
 Route::delete('mirutaapiD',[PedidoController::class,'destroy'])->name('pedido.destroy');
 
 
-
-Route::resource('categorias',CategoriaController::class);
+Route::resource('categoria',CategoriaController::class);
 Route::resource('horarios',HorarioController::class);
-Route::resource('negocios',NegocioController::class);
+Route::resource('negocio',NegocioController::class);
 Route::resource('pedidos',PedidoController::class);
 Route::resource('productos',ProductoController::class);
-Route::resource('tipo_usuarios',TipoUsuarioController::class);
+Route::resource('tipo_usuario',TipoUsuarioController::class);
 Route::resource('users',UserController::class);
+
+Route::get('pedidos-detalle/{pedido}',[PedidoController::class,'DetallePedido'])->name('pedidos.detalle');
 

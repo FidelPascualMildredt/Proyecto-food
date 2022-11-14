@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
+use App\Models\Negocio;
+use App\Models\Producto;
+use App\Models\Categoria;
+use App\Models\Tipo_usuario;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -16,7 +20,8 @@ class ProductoController extends Controller
     public function index()
     {
         //Definimos nuestra vista
-        return Pedido::all();
+        $producto = Producto::all();
+        return view('productos.index',compact('producto'));
     }
 
     /**
@@ -26,7 +31,8 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+        $categorias = Categoria::where('tipo_cat','producto')->get();
+        return view('productos.create', compact('categorias'));
     }
 
     /**
@@ -37,7 +43,26 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'nombre' => 'required|min:5',
+            'precio' => 'required',
+            'descripcion' => 'required|min:5',
+            'stock' => 'required',
+            'categoria' => 'required|not_in:Elegir'
+        ];
+        $this->validate($request, $rules);
+
+        Producto::create([
+            'nombre' => $request->get('nombre'),
+            'precio' => $request->get('precio'),
+            'descripcion' => $request->get('descripcion'),
+            'calificacion' => 0,
+            'stock' => $request->get('stock'),
+            'imagen' => 'https://via.placeholder.com/640x480.png/00bb99?text=aspernatur',
+            'negocios_id' => Negocio::all()->random()->id,
+            'categorias_id' => $request->get('categoria')
+           ]);
+           return back()->with('success','El producto se ha creado correctamente');
     }
 
     /**
@@ -49,6 +74,8 @@ class ProductoController extends Controller
     public function show($id)
     {
         //
+        $producto = Producto::find($id);
+        return view('productos.show', compact('producto'));
     }
 
     /**
@@ -59,8 +86,11 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categorias = Categoria::where('tipo_cat','producto')->get();
+        $producto = Producto::find($id);
+        return view('productos.edit', compact('producto','categorias'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -72,6 +102,31 @@ class ProductoController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+
+        $producto = Producto::find($id);
+
+        $rules = [
+            'nombre' => 'required|min:5',
+            'precio' => 'required',
+            'descripcion' => 'required|min:5',
+            'stock' => 'required',
+            'categoria' => 'required|not_in:Elegir'
+        ];
+
+        $this->validate($request, $rules);
+
+
+
+       $producto->update([
+        'nombre' => $request->get('nombre'),
+        'precio' => $request->get('precio'),
+        'descripcion' => $request->get('descripcion'),
+        'stock' => $request->get('stock'),
+        'categorias_id' => $request->get('categoria')
+       ]);
+
+       return back()->with('success','El producto se ha actualizado correctamente');
     }
 
     /**

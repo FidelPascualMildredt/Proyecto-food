@@ -18,11 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('negocios_id');
             $table->unsignedBigInteger('cliente_id');
             $table->unsignedBigInteger('repartidor_id');
-            $table->decimal('precio_envio',8,2);
-            $table->decimal('subtotal', 8, 2);
-            $table->decimal('total',8, 2);
-            $table->date('fecha');
-            $table->text('comentario');
+            $table->decimal('precio_envio',8,2)->nullable();
+            $table->decimal('subtotal', 8, 2)->nullable();
+            $table->decimal('total',8, 2)->nullable();
+            $table->date('fecha')->nullable();
+            $table->text('comentario')->nullable();
             $table->foreign('negocios_id')->references('id')->on('negocios');
             $table->foreign('cliente_id')->references('id')->on('users');
             $table->foreign('repartidor_id')->references('id')->on('users');

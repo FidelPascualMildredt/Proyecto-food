@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('direccion');
             $table->string('correo');
             $table->char('telefono',20);
-            $table->unsignedTinyInteger('calificacion');
+            $table->unsignedTinyInteger('calificacion')->default(0);
             $table->unsignedBigInteger('categorias_id');
             $table->foreign('categorias_id')->references('id')->on('categorias');
             $table->timestamps();

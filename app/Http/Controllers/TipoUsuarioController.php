@@ -16,7 +16,8 @@ class TipoUsuarioController extends Controller
     public function index()
     {
         //Definimos nuestra vista
-        return Tipo_usuario::all();
+        $tipo_usuarios = Tipo_usuario::all();
+        return view('tipo_usuario.index',compact('tipo_usuarios'));
     }
 
     /**
@@ -26,7 +27,7 @@ class TipoUsuarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('tipo_usuario.create');
     }
 
     /**
@@ -37,7 +38,16 @@ class TipoUsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'nombre' => 'required|unique:tipo_usuarios,nombre|min:5',
+        ];
+        $this->validate($request, $rules);
+
+        Tipo_usuario::create([
+            'nombre' => $request->get('nombre'),
+
+           ]);
+           return back()->with('success','El Tipo de Usuario se a creado correctamente');
     }
 
     /**
@@ -48,7 +58,8 @@ class TipoUsuarioController extends Controller
      */
     public function show($id)
     {
-        //
+        $tipo_usuario = Tipo_usuario::find($id);
+        return view('tipo_usuario.show', compact('tipo_usuario'));
     }
 
     /**
@@ -59,7 +70,8 @@ class TipoUsuarioController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tipo_usuario = Tipo_usuario::find($id);
+        return view('tipo_usuario.edit', compact('tipo_usuario'));
     }
 
     /**
@@ -71,7 +83,24 @@ class TipoUsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tipo_usuario = Tipo_usuario::find($id);
+
+
+        $rules = [
+            'nombre' => "required|unique:tipo_usuarios,nombre,{$tipo_usuario->id}|min:5",
+
+        ];
+
+        $this->validate($request, $rules);
+
+
+
+       $tipo_usuario->update([
+        'nombre' => $request->get('nombre'),
+       ]);
+
+       return back()->with('success','El Tipo de Usuario se a actualizado correctamente');
+
     }
 
     /**
@@ -83,5 +112,8 @@ class TipoUsuarioController extends Controller
     public function destroy($id)
     {
         //
+        $tipo_usuario = Tipo_usuario::findOrFail($id);
+        $tipo_usuario->delete();
+        return back()->with('error','El Tipo de Usuario se a eliminado');
     }
 }

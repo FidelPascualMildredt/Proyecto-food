@@ -25,7 +25,10 @@ class DatabaseSeeder extends Seeder
     {
         // Storage::deleteDirectory('productos');
         // Storage::makeDirectory('productos');
-        Tipo_usuario::factory(10)->create();
+        // Tipo_usuario::factory(10)->create();
+        $this->call([
+            TipoUsuarioSeeder::class,
+        ]);
         Categoria::factory(10)->create();
         User::factory(10)->create();
         Negocio::factory(10)->create();

@@ -9,6 +9,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Producto extends Model
 {
     use HasFactory,SoftDeletes;
+
+    protected $fillable = [
+        'nombre',
+        'precio',
+        'descripcion',
+        'calificacion',
+        'stock',
+        'imagen',
+        'negocios_id',
+        'categorias_id'
+    ];
+
     public function pedidos(){
         return $this->belongsToMany(Pedido::class,'detalle_pedidos','productos_id','pedidos_id')->withPivot('cantidad','precio','total','comentario');
     }

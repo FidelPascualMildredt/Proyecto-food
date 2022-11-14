@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pedido extends Model
 {
+
     use HasFactory,SoftDeletes;
+    protected $fillable = ['negocios_id','cliente_id','repartidor_id','subtotal','total','fecha','comentario'];
     public function negocio()
     {
         return $this->belongsTo(Negocio::class,'negocios_id','id');
